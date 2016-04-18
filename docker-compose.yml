@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+
+    schleuder:
+        build: .
+        volumes:
+            - "/srv/data/live/schleuder/etc:/etc/schleuder/"
+            - "/srv/data/live/schleuder/db:/var/schleuder/"
+        command: /usr/local/bundle/bin/schleuderd
+        hostname: schleuder
+        expose: 4567
+        
+    webschleuder:
+        build: .
+        depends_on:
+            - schleuder
+        volumes:
+            - "/srv/data/live/schleuder/etc:/etc/schleuder/"
+            - "/srv/data/live/schleuder/db:/var/schleuder/"
+            - "/srv/data/live/schleuder/web:/webschleuder3/config"
+        hostname: webschleuder
+        expose: 3000
